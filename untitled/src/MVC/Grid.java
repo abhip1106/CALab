@@ -12,11 +12,13 @@ public abstract class Grid extends Model {
     static private int time = 0;
     protected int dim = 20;
     protected Cell[][] cells;
+    public abstract Cell makeCell(boolean uniform);
 
     public int getDim() { return dim; }
     public int getTime() { return time; }
-    public Cell getCell(int row, int col) { return cells[row][col]; }
-    public abstract Cell makeCell(boolean uniform);
+    public Cell getCell(int row, int col) {
+        return cells[row][col];
+    }
 
 
     public Grid(int dim) {
@@ -32,7 +34,6 @@ public abstract class Grid extends Model {
         for(int i = 0; i < dim; i++){
             for(int j = 0; j < dim; j++){
                 cells[i][j] = makeCell(false);
-
             }
         }
         // 2. use getNeighbors to set the neighbors field of each cell
@@ -71,9 +72,14 @@ public abstract class Grid extends Model {
                     continue;
 
                 // Check if the new cell is within the bounds of the grid
-                if (newRow >= 0 && newRow < dim && newCol >= 0 && newCol < dim) {
-                    neighbors.add(cells[newRow][newCol]);
+                if (newRow  < 0){
+                    newRow+= dim;
                 }
+                if(newCol < 0) {
+                    newCol += dim;
+                }
+                neighbors.add(cells[newRow % dim ][newCol % dim]);
+
             }
         }
 
@@ -110,6 +116,7 @@ public abstract class Grid extends Model {
             System.out.println("time = " + time);
         }
     }
+
 }
 
 

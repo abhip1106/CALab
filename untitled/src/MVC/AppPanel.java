@@ -13,7 +13,7 @@ import java.util.Scanner;
 
 public class AppPanel extends JPanel implements Subscriber,ActionListener {
     private JPanel control;
-
+    private Grid grid;
     public AppPanel() {
         // Create a frame (window)
         JFrame frame = new JFrame("CALab");
@@ -45,8 +45,11 @@ public class AppPanel extends JPanel implements Subscriber,ActionListener {
         control.add(clear);
         clear.addActionListener(this);
 
+        //Choose a Grid
+        grid  = new LifeGrid();
+        grid.populate();
         // Create a panel for the right-hand side
-        JPanel view = new CellView();
+        JPanel view = new GridView(grid);
         view.setLayout(new GridLayout(2, 1));
 
 
@@ -82,10 +85,13 @@ public class AppPanel extends JPanel implements Subscriber,ActionListener {
                 case "Clear":
 
                     break;
-                case "Run":
+                case "Run1":
 
                     break;
-                case "Parse":
+                case "Run50":
+
+                    break;
+                case "Populate":
 
                     break;
                 case "Save": {

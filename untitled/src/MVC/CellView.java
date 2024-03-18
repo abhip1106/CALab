@@ -12,11 +12,15 @@ public class CellView extends JButton implements ActionListener, Subscriber {
 
     public CellView(Cell c) {
         myCell = c;
-        if (c != null) { c.subscribe(this); }
+        if (c != null) {
+            c.subscribe(this);
+        }
         this.addActionListener(this);
     }
 
-    public CellView() { this(null); }
+    public CellView() {
+        this(null);
+    }
 
     @Override
     public void actionPerformed(ActionEvent e) {
