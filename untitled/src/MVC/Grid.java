@@ -96,14 +96,25 @@ public abstract class Grid extends Model {
                 cells[i][j].neighbors = getNeighbors(cells[i][j],1);
             }
         }
+        notifySubscribers();
     }
 
     public void interact() {
-        // ???
+        for (int row = 0; row < dim; row++) {
+            for (int col = 0; col < dim; col++) {
+                Cell currCell = cells[row][col];
+                currCell.interact();
+            }
+        }
     }
 
     public void update() {
-        // ???
+        for (int row = 0; row < dim; row++) {
+            for (int col = 0; col < dim; col++) {
+                Cell currCell = cells[row][col];
+                currCell.update();
+            }
+        }
     }
 
     public void updateLoop(int cycles) {
