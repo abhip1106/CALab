@@ -11,10 +11,11 @@ abstract class Cell extends Publisher implements Serializable {
 
     protected int row = 0, col = 0;
     protected Set<Cell> neighbors = new HashSet<Cell>();
+    protected int neighborsAlive;
     protected Grid myGrid = null;
     protected Cell partner = null;
-    private int status;
-    private Color color;
+    protected int status;
+    protected Color color;
     // choose a random neighbor as a partner
     public void choosePartner() {
         if (partner == null && neighbors != null) {
@@ -70,7 +71,10 @@ abstract class Cell extends Publisher implements Serializable {
     }
 
     public Color getColor() {
-        return this.color;
+        if(status == 0){
+            return Color.red;
+        }
+        return Color.green;
     }
 }
 

@@ -46,13 +46,14 @@ public class AppPanel extends JPanel implements Subscriber,ActionListener {
         clear.addActionListener(this);
 
         //Choose a Grid
-        grid  = new LifeGrid();
+        grid = new LifeGrid(20);
         grid.populate();
         // Create a panel for the right-hand side
-        JPanel view = new GridView(grid);
-        view.setLayout(new GridLayout(2, 1));
+        GridView gridView = new GridView(grid);
 
-
+        grid.clear();
+        grid.notifySubscribers();
+        JPanel view = gridView.getGridPanel();
         add(view);
 
 
@@ -83,16 +84,20 @@ public class AppPanel extends JPanel implements Subscriber,ActionListener {
         try {
             switch (cmmd) {
                 case "Clear":
-
+                    grid.clear();
+                    grid.notifySubscribers();
                     break;
                 case "Run1":
-
+                    grid.updateLoop(1);
+                    grid.notifySubscribers();
                     break;
                 case "Run50":
-
+                    grid.updateLoop(50);
+                    grid.notifySubscribers();
                     break;
                 case "Populate":
-
+                    grid.repopulate(true);
+                    grid.notifySubscribers();
                     break;
                 case "Save": {
                     String fName = Utilities.getFileName((String) null, false);
@@ -155,7 +160,5 @@ public class AppPanel extends JPanel implements Subscriber,ActionListener {
     public void update() {
 
     }
-    class CellView extends JPanel{
 
-    }
 }

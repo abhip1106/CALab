@@ -49,9 +49,17 @@ public abstract class Grid extends Model {
     // called when Populate and clear buttons are clicked
     public void repopulate(boolean randomly) {
         if (randomly) {
-            // randomly set the status of each cell
+            for(int i = 0; i < dim; i++){
+                for(int j = 0; j < dim; j++){
+                    cells[i][j].status = (Math.random() < 0.5) ? 0 : 1;;
+                }
+            }
         } else {
-            // set the status of each cell to 0 (dead)
+            for(int i = 0; i < dim; i++){
+                for(int j = 0; j < dim; j++){
+                    cells[i][j].status = 0;
+                }
+            }
         }
         // notify subscribers
 
@@ -96,7 +104,6 @@ public abstract class Grid extends Model {
                 cells[i][j].neighbors = getNeighbors(cells[i][j],1);
             }
         }
-        notifySubscribers();
     }
 
     public void interact() {
@@ -107,7 +114,14 @@ public abstract class Grid extends Model {
             }
         }
     }
-
+    public void clear(){
+        for (int row = 0; row < dim; row++) {
+            for (int col = 0; col < dim; col++) {
+                cells[row][col].status = 0;
+            }
+        }
+        update();
+    }
     public void update() {
         for (int row = 0; row < dim; row++) {
             for (int col = 0; col < dim; col++) {
