@@ -3,35 +3,41 @@ package MVC;
 import java.awt.*;
 
 public class LifeCell extends Cell{
-    public LifeCell(){
+
+    public LifeCell(Grid mygrid){
+        this.myGrid = mygrid;
         //System.out.println("LifeCell made");
+    }
+    public int countNeighbors(){
+        int count = 0;
+        for(Cell x: neighbors){
+            if(x.getStatus() == 1){
+                count++;
+            }
+        }
+        return count;
     }
 
     @Override
     public void observe() {
-        neighborsAlive = 0;
-        for(Cell x: neighbors){
-            if(x.getStatus() == 1){
-                neighborsAlive++;
-            }
-        }
+        neighborsAlive = countNeighbors();
     }
 
     @Override
     public void interact() {
-        if(neighborsAlive == 3 || neighborsAlive == 4  || neighborsAlive == 1){
-            this.status = 1;
-            return;
-        }
-        if(neighborsAlive == 2){
-            return;
-        }
-        this.status = 0;
+
+
     }
 
     @Override
     public void update() {
-
+        if(neighborsAlive == 3){
+            this.status = 1;
+        }else if(neighborsAlive == 2){
+            return;
+        }else{
+            this.status = 0;
+        }
     }
 
     @Override

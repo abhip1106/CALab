@@ -1,10 +1,11 @@
 package MVC;
 
-import MVC.tools.Command;
+import MVC.tools.*;
 
-public class RunCommand implements Command {
+public class RunCommand extends Command {
     private int times;
-    public RunCommand(int times){
+    public RunCommand(Model model, int times){
+        super(model);
         this.times = times;
     }
     @Override

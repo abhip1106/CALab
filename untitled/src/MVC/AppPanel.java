@@ -22,7 +22,7 @@ public class AppPanel extends JPanel implements Subscriber,ActionListener {
         frame.setJMenuBar(this.createMenuBar());
         // Create buttons on the left-hand side
         JPanel control = new JPanel();
-        control.setLayout(new GridLayout(3, 1));
+        control.setLayout(new GridLayout(4, 1));
 
         //Parser Button
         JButton run1 = new JButton("Run1");
@@ -60,7 +60,7 @@ public class AppPanel extends JPanel implements Subscriber,ActionListener {
         // Create a split pane to divide left and right panels
         JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, control, view);
         splitPane.setResizeWeight(0.25); // Set the initial width of leftPanel
-
+        //frame.pack();
         // Add split pane to the frame
         frame.getContentPane().add(splitPane);
 
@@ -96,6 +96,7 @@ public class AppPanel extends JPanel implements Subscriber,ActionListener {
                     grid.notifySubscribers();
                     break;
                 case "Populate":
+
                     grid.repopulate(true);
                     grid.notifySubscribers();
                     break;

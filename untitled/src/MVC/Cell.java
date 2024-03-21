@@ -9,6 +9,21 @@ import MVC.tools.*;
 
 abstract class Cell extends Publisher implements Serializable {
 
+    // observer neighbors' states
+    public abstract void observe();
+
+    // interact with a random neighbor
+    public abstract void interact();
+
+    // update my state
+    public abstract void update();
+
+    // set status to status + 1 mod whatever
+    public abstract void nextState();
+
+    // set status to a random or initial value
+    public abstract void reset(boolean randomly);
+
     protected int row = 0, col = 0;
     protected Set<Cell> neighbors = new HashSet<Cell>();
     protected int neighborsAlive;
@@ -55,16 +70,7 @@ abstract class Cell extends Publisher implements Serializable {
         }
     }
 
-    // observer neighbors' states
-    public abstract void observe();
-    // interact with a random neighbor
-    public abstract void interact();
-    // update my state
-    public abstract void update();
-    // set status to status + 1 mod whatever
-    public abstract void nextState();
-    // set status to a random or initial value
-    public abstract void reset(boolean randomly);
+
 
     public int getStatus() {
         return this.status;

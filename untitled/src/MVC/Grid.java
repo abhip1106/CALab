@@ -30,20 +30,20 @@ public abstract class Grid extends Model {
 
     protected void populate() {
         // 1. use makeCell to fill in cells
-
         for(int i = 0; i < dim; i++){
             for(int j = 0; j < dim; j++){
                 cells[i][j] = makeCell(false);
+                cells[i][j].row = i;
+                cells[i][j].col = j;
             }
         }
+
         // 2. use getNeighbors to set the neighbors field of each cell
         for(int i = 0; i < dim; i++){
             for(int j = 0; j < dim; j++){
                 cells[i][j].neighbors = getNeighbors(cells[i][j],1);
             }
         }
-
-
     }
 
     // called when Populate and clear buttons are clicked
@@ -52,6 +52,7 @@ public abstract class Grid extends Model {
             for(int i = 0; i < dim; i++){
                 for(int j = 0; j < dim; j++){
                     cells[i][j].status = (Math.random() < 0.5) ? 0 : 1;;
+
                 }
             }
         } else {
@@ -68,7 +69,6 @@ public abstract class Grid extends Model {
 
     public Set<Cell> getNeighbors(Cell asker, int radius) {
         Set<Cell> neighbors = new HashSet<>();
-
         // Iterate over rows and columns around the asker cell
         for (int dr = -radius; dr <= radius; dr++) {
             for (int dc = -radius; dc <= radius; dc++) {
@@ -76,48 +76,43 @@ public abstract class Grid extends Model {
                 int newCol = asker.col + dc;
 
                 // Skip if the new cell is the asker itself
-                if (newRow == asker.row && newCol == asker.col)
+                if (dr ==0  && dc == 0)
                     continue;
-
                 // Check if the new cell is within the bounds of the grid
-                if (newRow  < 0){
-                    newRow+= dim;
+                if (newRow  <= 0){
+                    newRow += dim;
                 }
-                if(newCol < 0) {
+                if(newCol <= 0) {
                     newCol += dim;
                 }
-                neighbors.add(cells[newRow % dim ][newCol % dim]);
-
+                neighbors.add(cells[newRow % dim][newCol % dim]);
             }
         }
-
         return neighbors;
     }
-
-
     // cell phases:
-
     public void observe() {
         // call each cell's observe method and notify subscribers
         for(int i = 0; i < dim; i++){
             for(int j = 0; j < dim; j++){
-                cells[i][j].neighbors = getNeighbors(cells[i][j],1);
+                this.getCell(i,j).observe();
             }
         }
+        notifySubscribers();
     }
 
     public void interact() {
         for (int row = 0; row < dim; row++) {
             for (int col = 0; col < dim; col++) {
-                Cell currCell = cells[row][col];
-                currCell.interact();
+                this.getCell(row,col).interact();
             }
         }
+        notifySubscribers();
     }
     public void clear(){
         for (int row = 0; row < dim; row++) {
             for (int col = 0; col < dim; col++) {
-                cells[row][col].status = 0;
+                this.getCell(row,col).status = 0;
             }
         }
         update();
@@ -125,10 +120,11 @@ public abstract class Grid extends Model {
     public void update() {
         for (int row = 0; row < dim; row++) {
             for (int col = 0; col < dim; col++) {
-                Cell currCell = cells[row][col];
+                Cell currCell = this.getCell(row,col);
                 currCell.update();
             }
         }
+        //notifySubscribers();
     }
 
     public void updateLoop(int cycles) {
@@ -141,7 +137,4 @@ public abstract class Grid extends Model {
             System.out.println("time = " + time);
         }
     }
-
 }
-
-
