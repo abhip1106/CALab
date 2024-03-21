@@ -1,0 +1,21 @@
+package CALab;
+
+import mvc.*;
+
+
+import javax.swing.*;
+public class PopulateCommand extends Command {
+    Model model;
+    public PopulateCommand(Model model) {
+        super(model);
+    }
+
+    @Override
+    public void execute() {
+        Grid grid = (Grid)model;
+        grid.populate();
+    }
+
+
+
+}
